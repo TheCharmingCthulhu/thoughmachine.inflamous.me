@@ -861,6 +861,19 @@ a:active {
   max-width: 100%;
 }
 
+.widget-area {
+  background-color: rgba(255, 255, 255, 255);
+  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.14);
+
+  visibility: hidden;
+  position: fixed;
+  left: 0px;
+  top: 32px;
+  height: 100%;
+  padding: 40px;
+  overflow-y: scroll;
+}
+
 /*--------------------------------------------------------------
 # Content
 --------------------------------------------------------------*/
@@ -920,7 +933,7 @@ a:active {
   display: flex;
   align-items: center;
   margin-top: 1.5em;
-  padding: 0px 20px;
+  padding: 0px 30px;
 }
 
 .entry-footer > span {

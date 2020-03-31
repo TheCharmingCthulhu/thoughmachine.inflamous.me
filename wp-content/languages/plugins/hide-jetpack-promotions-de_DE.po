@@ -1,0 +1,32 @@
+# Translation of Plugins - Jetpack Without Promotions - Stable (latest release) in German
+# This file is distributed under the same license as the Plugins - Jetpack Without Promotions - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-11-14 09:00:15+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: de\n"
+"Project-Id-Version: Plugins - Jetpack Without Promotions - Stable (latest release)\n"
+
+#. Author URI of the plugin/theme
+msgid "https://required.com"
+msgstr "https://required.com"
+
+#. Author of the plugin/theme
+msgid "required"
+msgstr "required"
+
+#. Description of the plugin/theme
+msgid "Removes all admin notices for promotions added by Jetpack."
+msgstr "Entfernt alle Promotionen von Jetpack im WordPress Adminbereich."
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/wearerequired/hide-jetpack-promotions"
+msgstr "https://github.com/wearerequired/hide-jetpack-promotions"
+
+#. Plugin Name of the plugin/theme
+msgid "Jetpack Without Promotions"
+msgstr "Jetpack ohne Promotionen"

@@ -24,7 +24,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 ----------------------------------------------------------------
 # Normalize
 # Typography
-# Site
+
 # Elements
 # Forms
 # Navigation
@@ -538,15 +538,6 @@ figure {
 table {
   margin: 0 0 1.5em;
   width: 100%;
-}
-
-/*--------------------------------------------------------------
-# Site
---------------------------------------------------------------*/
-
-.site {
-  width: 75vw;
-  margin: auto;
 }
 
 /*--------------------------------------------------------------

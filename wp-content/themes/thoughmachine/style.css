@@ -42,6 +42,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	## Captions
 	## Galleries
 # ThoughMachine
+# Limits
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
 # Normalize
@@ -546,22 +547,41 @@ table {
 --------------------------------------------------------------*/
 
 .site {
-  width: 75vw;
+  width: 80vw;
   margin: auto;
+}
+
+.site-title {
+  font-family: Roboto;
+  font-size: 4vw;
+  font-weight: 900;
+  margin: 0 1vw;
+  margin-top: 40px;
+  line-height: 16px;
+}
+
+.site-description {
+  margin: 0px 2vw;
+  font-size: 1.569vw;
+  padding-top: 16px;
 }
 
 .site-branding {
   padding: 10px 20px;
-  background: rgba(255, 255, 255, 0);
-  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.14);
+  background: #ffffff;
+  box-shadow: 0px 2px 16px rgba(100, 100, 100, 0.4);
   /* margin-bottom: 0px;
   padding-bottom: 4px; */
 }
 
+.site-info {
+  padding: 0px 2vw;
+}
+
 .site-footer {
   padding: 20px 0px;
-  background: rgba(255, 255, 255, 0);
-  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.14);
+  background: #ffffff;
+  box-shadow: 0px 2px 16px rgba(100, 100, 100, 0.4);
 }
 
 /*--------------------------------------------------------------
@@ -657,6 +677,7 @@ textarea {
 --------------------------------------------------------------*/
 a {
   color: royalblue;
+  text-decoration: none;
 }
 
 a:visited {
@@ -814,11 +835,6 @@ a:active {
   outline: 0;
 }
 
-#content {
-  width: 75vw;
-  margin: auto;
-}
-
 /*--------------------------------------------------------------
 # Alignments
 --------------------------------------------------------------*/
@@ -934,25 +950,26 @@ a:active {
 
 .post {
   padding: 20px 0px;
-  background: rgba(255, 255, 255, 0);
-  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.14);
+  background: #ffffff;
+  box-shadow: 0px 2px 16px rgba(100, 100, 100, 0.4);
   margin-bottom: 0px;
   padding-bottom: 4px;
 }
 
 .entry-header {
   border-bottom: solid 1px rgba(0, 0, 0, 0.22);
-  padding: 0px 40px;
+  padding: 0px 3vw;
 }
 
 .entry-content {
-  margin: 20px 40px;
-  padding: 10px 2vw;
-  border: solid #0078d7;
+  margin: 1.3vh 1vw;
+  border: solid 1px rgb(199, 199, 199, 1);
 }
 
 .entry-content > p {
   margin-bottom: 1rem;
+  padding: 10px 2vw;
+  font-size: 14px;
 }
 
 .entry-footer {
@@ -960,8 +977,7 @@ a:active {
   min-height: 40px;
   display: flex;
   align-items: center;
-  margin-top: 1.5em;
-  padding: 0px 30px;
+  padding: 0px 2vw;
 }
 
 .entry-footer > span {
@@ -971,20 +987,49 @@ a:active {
 .entry-title {
   font-family: 'Roboto';
   font-weight: 300;
-  font-size: 2rem;
-  line-height: 2rem;
+
+  font-size: 1.3rem;
+  line-height: 1.3rem;
   margin: 0px;
-  padding-bottom: 15px;
+  padding-bottom: 7.5px;
 }
 
 .entry-meta {
   font-family: 'Roboto';
 
-  font-size: 1rem;
-  line-height: 1rem;
-  padding-left: 16px;
-  padding-bottom: 20px;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  padding-left: 8px;
+  padding-bottom: 10px;
 }
+
+/* 
+## Tablet 
+*/
+@media screen and (min-width: 768px) {
+  .entry-content > p {
+    margin-bottom: 1rem;
+  }
+
+  .entry-title {
+    font-size: 2rem;
+    line-height: 2rem;
+    margin: 0px;
+    padding-bottom: 15px;
+  }
+
+  .entry-meta {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-left: 16px;
+    padding-bottom: 20px;
+  }
+
+  .entry-content > p {
+    font-size: 16px;
+  }
+}
+
 /*--------------------------------------------------------------
 ## Comments
 --------------------------------------------------------------*/
@@ -995,8 +1040,8 @@ a:active {
 .comments-area {
   margin: 40px 0px;
   padding: 10px 40px;
-  background: rgba(255, 255, 255, 0);
-  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.14);
+  background: #ffffff;
+  box-shadow: 0px 2px 16px rgba(100, 100, 100, 0.5);
   margin-bottom: 0px;
   padding-bottom: 4px;
 }
@@ -1119,3 +1164,30 @@ object {
 /*--------------------------------------------------------------
 # Though Machine
 --------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Limits
+--------------------------------------------------------------*/
+@media screen and (min-width: 1024px) {
+  .site-title {
+    font-size: 42px;
+  }
+
+  .site-description {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .site-title {
+    font-size: 25px;
+  }
+
+  .site-description {
+    font-size: 10px;
+  }
+
+  .entry-content {
+    margin: 12px 7px;
+  }
+}

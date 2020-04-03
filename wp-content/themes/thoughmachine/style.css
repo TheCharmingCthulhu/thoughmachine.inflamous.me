@@ -979,6 +979,7 @@ a:active {
   display: flex;
   align-items: center;
   padding: 0px 2vw;
+  font-size: 1.4vw;
 }
 
 .entry-footer > span {
@@ -1166,6 +1167,10 @@ object {
   .entry-content > p {
     font-size: 16px;
   }
+
+  .entry-footer {
+    font-size: 15px;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -1195,5 +1200,9 @@ object {
 
   .entry-content > p {
     font-size: 10px;
+  }
+
+  .entry-footer {
+    font-size: 9px;
   }
 }

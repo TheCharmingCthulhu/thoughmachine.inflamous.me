@@ -91,6 +91,7 @@ $niteoCS_counter_heading 	= get_option('niteoCS_counter_heading', 'STAY TUNED, W
 					<select name="niteoCS_countdown_action" id="niteoCS_countdown_action" class="counter-action">
 
 						<option value="no-action" <?php selected($niteoCS_countdown_action, 'no-action'); ?>><?php _e('No Action', 'cmp-coming-soon-maintenance');?></option>
+						<option value="hide" <?php selected($niteoCS_countdown_action, 'hide'); ?>><?php _e('Hide Counter', 'cmp-coming-soon-maintenance');?></option>
 						<option value="disable-cmp" <?php selected($niteoCS_countdown_action, 'disable-cmp'); ?>><?php _e('Disable Coming Soon / Maintenance page.', 'cmp-coming-soon-maintenance');?></option>
 					 	<option value="redirect" <?php selected($niteoCS_countdown_action, 'redirect'); ?>><?php _e('URL Redirect', 'cmp-coming-soon-maintenance');?></option>
 

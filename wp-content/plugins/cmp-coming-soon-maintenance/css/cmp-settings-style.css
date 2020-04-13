@@ -1149,7 +1149,7 @@
 .cmp-coming-soon-maintenance .source-repeater-fields i,
 .cmp-coming-soon-maintenance .target-repeater-fields i {
     line-height: 2.5;
-    float: right;
+    margin-left: 10px;
 }
 
 .logo-height-wrap {

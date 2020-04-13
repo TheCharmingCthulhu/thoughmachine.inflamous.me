@@ -213,65 +213,8 @@
         </div>
 
         <?php 
-        if ( $niteoCS_counter == '1') { ?>
-            <script>
-            // Set the date we're counting down to
-            var counter = document.getElementById('counter');
-            var unixtime = counter.getAttribute('data-date');
-            var date = new Date(unixtime*1000);
-            var countDownDate = new Date(date).getTime();
 
-            // Update the count down every 1 second
-            var x = setInterval(function() {
-
-                // Get todays date and time
-                var now = new Date().getTime();
-                
-                // Find the distance between now an the count down date
-                var distance = countDownDate - now;
-                
-                // Time calculations for days, hours, minutes and seconds
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                if (days < 10) {
-                    days = '0' + days;
-                }
-                if (hours < 10) {
-                    hours = '0' + hours;
-                }
-                if (minutes < 10) {
-                    minutes = '0' + minutes;
-                }
-                if (seconds < 10) {
-                    seconds = '0' + seconds;
-                }
-                if (distance >= 0) {
-                    document.getElementById('counter-day').innerHTML = days;
-                    document.getElementById('counter-hour').innerHTML = hours;
-                    document.getElementById('counter-minute').innerHTML = minutes;
-                    document.getElementById('counter-second').innerHTML = seconds;   
-                }
-
-                <?php 
-                if ( $countdown_action != 'no-action' && $countdown_action != 'display-text') { ?>
-
-                    // If the count down is over, write some text 
-                    if (distance < 0) {
-                        clearInterval(x);
-                        window.location.reload();
-                    }
-                    <?php
-                } ?>
-
-            }, 1000);
-            </script>
-            <?php 
-        } 
-
-        // render footer javascripts
+        // rener footer javascripts
         if ( method_exists ( $html, 'cmp_javascripts' ) ) {
             $html->cmp_javascripts( $banner_type, $themeslug );
         } ?>

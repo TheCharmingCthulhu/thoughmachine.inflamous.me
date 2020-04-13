@@ -5,14 +5,19 @@ ob_start();
 
 $title = stripslashes( get_option('niteoCS_title', get_bloginfo('name').' Coming soon!') );
 $descr = stripslashes( get_option('niteoCS_descr', 'Just another Coming Soon Page') );
-
+$seo_visibility = get_option('niteoCS_seo_visibility', get_option( 'blog_public', '1' ));
 $seo_img_id = get_option('niteoCS_seo_img_id');
 $seo_img_url = wp_get_attachment_image_src($seo_img_id, 'large');
 $seo_img_url = isset($seo_img_url[0]) ? $seo_img_url[0] : $this->cmp_get_background_img_for_seo();
 ?>
 <!-- SEO -->
-<title><?php echo esc_html( $title ); ?></title>
-<meta name="description" content="<?php echo esc_html( $descr ); ?>"/>
+<?php 
+if ( $title !== '' ) {
+echo '<title>'.esc_html( $title ).'</title>';
+}  
+if ( $descr !== '' ) {
+echo '<meta name="description" content="'.esc_attr( $descr ).'"/>';
+} ?>
 
 <!-- og meta for facebook, googleplus -->
 <meta property="og:title" content="<?php echo esc_html( $title ); ?>"/>
@@ -22,7 +27,7 @@ $seo_img_url = isset($seo_img_url[0]) ? $seo_img_url[0] : $this->cmp_get_backgro
 <meta property="og:image" content="<?php echo esc_url( $seo_img_url );?>"/>
 
 <!-- twitter meta -->
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="<?php echo esc_html( $title ); ?>"/>
 <meta name="twitter:description" content="<?php echo esc_html( $descr ); ?>"/>
 <meta name="twitter:url" content="<?php echo get_home_url();?>"/>
@@ -41,7 +46,7 @@ if ( $favicon_id && $favicon_id != '' ) {
    wp_site_icon();
 }
 
-if ( get_option( 'blog_public', '1' ) == '0' ) {
+if ( $seo_visibility == '0' ) {
     echo '<meta name="robots" content="noindex,nofollow" />' . PHP_EOL; 
 } 
 

@@ -11,7 +11,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 $ajax_nonce = wp_create_nonce( 'cmp-coming-soon-ajax-secret' );
 
 // get all wp pages to array(id->name);
-$pages = $this->cmp_get_pages();
+$pages = $this->cmp_get_pages('publish');
 
 if ( isset( $_POST['niteoCS_bypass_id'] ) ) {
 	if ( $_POST['niteoCS_bypass_id'] == '' ) {
@@ -155,7 +155,7 @@ if ( isset( $_POST['niteoCS_roles_topbar'] ) ) {
 }
 
 
-// update cmp roles topbar access
+// update header scripts
 if ( isset( $_POST['niteoCS_head_scripts'] ) ) {
 
 	$head_scripts = $_POST['niteoCS_head_scripts'];

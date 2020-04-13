@@ -2,10 +2,11 @@
 $custom = '';
 $google_fonts = '';
 $custom_font = '';
-
+$heading = null;
+$content = null;
 // get google fonts html
 if ( $heading_font['variant'] !== 'Not Applicable' || $content_font['variant'] !== 'Not Applicable' ) {
-
+    
     // get fonts subset
     $google_fonts = $this->cmp_get_google_fonts();
     $heading_break = FALSE;
@@ -14,7 +15,7 @@ if ( $heading_font['variant'] !== 'Not Applicable' || $content_font['variant'] !
     foreach ( $google_fonts as $font => $val ) {
 
         if ( $val['text'] == $heading_font['family'] ) {
-            $heading_subsets =  $val['subset'];
+            $heading_subsets =  isset($val['subset']) ? $val['subset'] : array();
             $heading_break = TRUE;
         }
 
@@ -35,6 +36,8 @@ if ( $heading_font['variant'] !== 'Not Applicable' || $content_font['variant'] !
     } else {
         $subset = array_unique( array_merge( $heading_subsets, $content_subsets ) );
     }
+
+    
 
     if ( $heading_font['variant'] !== 'Not Applicable' ) {
         $heading = esc_attr( str_replace(' ', '+', $heading_font['family']) ) .':'. esc_attr(str_replace('italic', 'i', $heading_font['variant'] ));
@@ -65,12 +68,10 @@ if ( $heading_font['variant'] === 'Not Applicable' || $content_font['variant'] =
             }
         }
         
-        
         if ( $custom['id'] === $content_font['family'] ) {
                 if ( is_array($custom['ids']) ) {
                 $custom_font .= $this->cmp_get_font_src( $content_font['family'], $custom['ids'] );
             }
         }
-
     }
 }

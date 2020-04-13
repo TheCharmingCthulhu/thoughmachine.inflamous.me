@@ -365,6 +365,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	if ( isset($_POST['niteoCS_overlay_button_url']) ) {
 		update_option('niteoCS_overlay_text[button_url]', sanitize_text_field($_POST['niteoCS_overlay_button_url']));
 	}
+
 }
 
 
@@ -510,13 +511,16 @@ if ( !get_option('niteoCS_socialmedia') ) {
 	$socialmedia = json_decode( $niteoCS_socialmedia, true );
 }
 
+
+$builder_theme = in_array( $themeslug, $this->cmp_builder_themes() );
+
 //include theme defaults
-if (file_exists($this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-defaults.php')) {
+if ( file_exists( $this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-defaults.php' ) ) {
 	include ( $this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-defaults.php' );
 } 
 
 // set banner type again, if the themes are not upgraded after 2.9.5 release where this settings got theme settings independent
-$banner_type     				= get_option('niteoCS_banner', '2');
+$banner_type = get_option('niteoCS_banner', '2');
 
 // get logo url from id
 if ( $niteoCS_logo_id != '' ) {
@@ -585,7 +589,7 @@ add_thickbox();
 		<h2 class="nav-tab-wrapper">
 			<a class="nav-tab nav-tab-active general" href="<?php echo admin_url(); ?>admin.php?page=cmp-settings#general" data-tab="general"><i class="fa fa-cog" aria-hidden="true"></i><?php _e('Settings', 'cmp-coming-soon-maintenance');?></a>
 
-			<?php if ( $themeslug !== 'divi' ) : ?>
+			<?php if ( !$builder_theme ) : ?>
 				<a class="nav-tab content" href="<?php echo admin_url(); ?>admin.php?page=cmp-settings#content" data-tab="content"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><?php _e('Content', 'cmp-coming-soon-maintenance');?></a>
 			<?php endif; ?>
 			<a class="nav-tab theme-setup" href="<?php echo admin_url(); ?>admin.php?page=cmp-settings#theme-setup" data-tab="theme-setup"><i class="fa fa-wrench" aria-hidden="true"></i><?php _e('Customize', 'cmp-coming-soon-maintenance');?></a>
@@ -613,7 +617,7 @@ add_thickbox();
 		}
 
 		// include banner 
-		if ( !class_exists('cmp_themes_manager') ) { ?>
+		if ( !class_exists('CMP_Addons') ) { ?>
 			<a class="cmp-bundle-banner table-wrapper general" href="https://niteothemes.com/bundles/" target="_blank"><img src="<?php echo plugins_url('img/banner_bundle.jpg', __FILE__);?>" alt="CMP Bundle Banner"></a>
 			<?php 
 		}
@@ -623,7 +627,7 @@ add_thickbox();
 			require ( dirname(__FILE__) . '/inc/settings/settings-theme-selector.php' );
 		}
 
-		if ( $themeslug !== 'divi' ) {
+		if ( !$builder_theme ) {
 
 			// get logo settings
 			if ( isset( $theme_supports['logo'] ) && $theme_supports['logo'] ) {
@@ -639,8 +643,22 @@ add_thickbox();
 			}
 			
 			// get content settings
-			if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-content.php' ) ) {
-				require ( dirname(__FILE__) . '/inc/settings/settings-content.php' );
+			if ( !isset( $theme_supports['content'] ) || ( isset( $theme_supports['content']) && $theme_supports['content'] ) ) {
+				if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-content.php' ) ) {
+					require ( dirname(__FILE__) . '/inc/settings/settings-content.php' );
+				}
+			}
+
+			// get content settings
+			if ( !isset( $theme_supports['content'] ) || ( isset( $theme_supports['content']) && $theme_supports['content'] ) ) {
+				if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-content.php' ) ) {
+					require ( dirname(__FILE__) . '/inc/settings/settings-content.php' );
+				}
+			}
+
+			// include custom theme content settings
+			if ( file_exists( $this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-content_settings.php' ) ) {
+				include ( $this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-content_settings.php' );
 			}
 
 			// get background settings
@@ -661,11 +679,6 @@ add_thickbox();
 				}
 			} 
 			
-			// include custom theme content settings
-			if ( file_exists($this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-content_settings.php') ) {
-				include ( $this->cmp_theme_dir($themeslug).$themeslug.'/'.$themeslug.'-content_settings.php' );
-			}
-
 			// get counter settings
 			if ( isset( $theme_supports['counter'] ) && $theme_supports['counter'] ) {
 				if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-counter.php') ) {
@@ -719,9 +732,9 @@ add_thickbox();
 			}
 		}
 
-		// include theme related settings
-		if ( $themeslug  === 'divi' && file_exists( $this->cmp_theme_dir( 'divi' ).'divi/divi-admin-settings.php' ) ) {
-			require ( $this->cmp_theme_dir( 'divi' ).'divi/divi-admin-settings.php' );
+		// include builders related settings
+		if ( $builder_theme && file_exists( $this->cmp_theme_dir( $themeslug ).$themeslug .'/'.$themeslug.'-admin-settings.php' ) ) {
+			require ( $this->cmp_theme_dir( $themeslug ).$themeslug .'/'.$themeslug.'-admin-settings.php' );
 		}
 
 		// special effects for premium themes
@@ -750,20 +763,23 @@ add_thickbox();
 		}
 		
 		// font selector settings
-		if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-typography.php' ) && $themeslug !== 'divi' ) {
+		if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-typography.php' ) && !$builder_theme ) {
 			require ( dirname(__FILE__) . '/inc/settings/settings-typography.php' );
 		}	
 
 		// SEO settings
 		if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-seo.php' ) ) {
 			require ( dirname(__FILE__) . '/inc/settings/settings-seo.php' );
-		}	
+		}
+
 		// CSS settings
 		if ( file_exists(dirname(__FILE__) . '/inc/settings/settings-css.php' ) ) {
 			require ( dirname(__FILE__) . '/inc/settings/settings-css.php' );
-		}	
-		?>
+		}
 
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['niteoCS_builder_page_id'])) {
+			do_action('cmp_save_settings', sanitize_text_field($_POST['niteoCS_builder_page_id']), $themeslug);
+		} ?>
 
 	</div> <!-- <div class="cmp-settings-wrapper"> -->
 

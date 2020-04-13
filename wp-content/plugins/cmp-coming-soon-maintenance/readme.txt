@@ -5,7 +5,7 @@ Tags: coming soon, landing page, launch page, maintenance mode, under constructi
 Requires at least: 3.0
 Requires PHP: 5.6
 Tested up to: 5.4
-Stable tag: 3.7.2.1
+Stable tag: 3.7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,15 +34,15 @@ Packed with functions like Whitelist/Blacklist to enable CMP only on specific pa
 	<li>CMP Landing page can be enabled on specific pages only (Blacklist and Whitelist) if required.</li>
 	<li>Supporting WordPress roles to bypass CMP and display your full website for logged-in users.</li>
 	<li>Bypass URL to preview a website for your customers.</li>
-	<li>Possibility to display Login Icon Button on Coming soon pages.</li>
+	<li>Option to display Login Icon Button on Coming soon pages.</li>
 	<li>Compatible with custom WordPress login URL.</li>
-	<li>Configurable Countdown Action - disable Coming soon / Maintenance mode or redirect to another website.</li>
+	<li>Configurable Countdown Action - disable Coming soon / Maintenance mode, hide counter or redirect to another website.</li>
 	<li>Configurable SEO meta tags for search engines, editable favicon, Search Engine Visibility and No-cache Headers.</li>
 	<li>Set response code to search engines (200 OK, 503 Maintenance).</li>
 	<li>Redirect Mode to redirect your website to another website.</li>
 	<li>Support for any website Analytics like Google Analytics and etc.</li>
 	<li>Subscribe feature supports Google Recaptcha integration.</li>
-	<li>Supports custom CSS code.</li>
+	<li>Custom CSS code is supported.</li>
 	<li>Fully translatable.</li>
 </ul>
 
@@ -151,6 +151,17 @@ https://www.youtube.com/watch?v=uxuJfHzwdtE
 <p>Nothing is better than a good feedback! Please go to <a href="https://wordpress.org/support/plugin/cmp-coming-soon-maintenance/reviews/">Plugin reviews</a> and rate it! Alternatively you can click on a Donate button too!:)</p>
 
 == Changelog ==
+<h4>CMP 3.7.4 - 13-April-20</h4>
+<ul>
+	<li>CMP Headliner Theme</li>
+</ul>
+
+<h4>CMP 3.7.3 - 08-April-20</h4>
+<ul>
+	<li>CMP Elementor Add-on released.</li>
+	<li>New Countdown action: Hide Counter</li>
+</ul>
+
 <h4>CMP 3.7.2.1 - 29-Mar-20</h4>
 <ul>
 	<li>Bug fix to repair niteothemes.com licensing server.</li>

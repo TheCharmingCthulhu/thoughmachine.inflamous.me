@@ -127,7 +127,7 @@ class CMP_Coming_Soon_and_Maintenance_Render_HTML extends CMP_Coming_Soon_and_Ma
 
 
     /**
-     * render theme head SEO.
+     * return  theme head SEO.
      *
      * @since 2.4
      * @return HTML 
@@ -138,6 +138,7 @@ class CMP_Coming_Soon_and_Maintenance_Render_HTML extends CMP_Coming_Soon_and_Ma
 
         return $html;
     }
+
 
     /**
      * render custom CSS.
@@ -261,7 +262,9 @@ class CMP_Coming_Soon_and_Maintenance_Render_HTML extends CMP_Coming_Soon_and_Ma
 
             $url = wp_get_attachment_url($attachment_id);
             $ext = pathinfo($url, PATHINFO_EXTENSION);
+            $src = '';
             $new_src = '';
+            $eot = '';
             
             switch ($ext) {
                 case 'eot':

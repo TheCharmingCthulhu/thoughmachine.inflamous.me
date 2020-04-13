@@ -98,12 +98,21 @@ switch ($subscribe_type) {
                         break;
                 } 
 
-                if ( $this->cmp_selectedTheme() == 'mercury' ) { ?>
-                    <button type="submit" id="submit-subscribe" value="<?php echo esc_attr( $submit );?>"><?php echo esc_attr( $submit );?></button>
-                    <?php 
-                } else { ?>
-                    <input type="submit" id="submit-subscribe" value="<?php echo esc_attr( $submit );?>">
-                    <?php 
+                switch ( $this->cmp_selectedTheme() ) {
+                    case 'mercury': ?>
+                        <button type="submit" id="submit-subscribe" value="<?php echo esc_attr( $submit );?>"><?php echo esc_attr( $submit );?></button>
+                        <?php
+                        break;
+                    case 'headliner':
+                        $subscribe  = isset($translation[12]['translation']) ? stripslashes( $translation[12]['translation'] ) : 'Subscribe'; ?>
+                        <input type="submit" id="submit-subscribe" value="<?php echo esc_attr( $subscribe );?>" data-subscribe="<?php echo esc_attr( $submit );?>">
+                        <?php
+                        break;
+                    
+                    default: ?>
+                        
+                        <?php
+                        break;
                 } ?>
 
                 <div style="display: none;">

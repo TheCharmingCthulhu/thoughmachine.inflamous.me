@@ -5,6 +5,7 @@ $theme_supports					= array(
 	'logo' 				=> true,
 	'slider' 			=> false,
 	'counter' 			=> true,
+	'counter_script' 	=> true,
 	'subscribe' 		=> true,
 	'social' 			=> true,
 	'footer' 			=> true,

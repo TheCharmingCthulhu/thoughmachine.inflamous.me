@@ -3,7 +3,7 @@
  Plugin Name: 		CMP - Coming Soon & Maintenance Plugin
  Plugin URI: 		https://wordpress.org/plugins/cmp-coming-soon-maintenance/
  Description:       Display customizable landing page for Coming Soon, Maintenance & Under Construction page.
- Version:           3.7.2.1
+ Version:           3.7.4
  Author:            NiteoThemes
  Author URI:        https://www.niteothemes.com
  Text Domain:       cmp-coming-soon-maintenance
@@ -61,12 +61,9 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			return self::$instance;
 		}
 
-		
-
-
 		// define constants
 		private function constants() {
-			$this->define( 'CMP_VERSION', '3.7.2.1' );
+			$this->define( 'CMP_VERSION', '3.7.4' );
 			$this->define( 'CMP_DEBUG', FALSE );
 			$this->define( 'CMP_AUTHOR', 'NiteoThemes' );
 			$this->define( 'CMP_AUTHOR_HOMEPAGE', 'https://niteothemes.com' );
@@ -83,6 +80,7 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 		 * Inits and hooks
 		 */
 		public function init() {
+			do_action( 'cmp_plugin_loaded');
 			add_action( 'template_redirect', array( $this, 'cmp_displayPage' ), 1 );
 			add_action( 'admin_init', array( $this, 'cmp_adminInit' ) ) ;
 			add_action( 'admin_init', array( $this, 'cmp_update_process' ), 0 );
@@ -91,6 +89,7 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			add_action( 'wp_before_admin_bar_render', array( $this, 'cmp_admin_bar' ) );
 			add_action( 'admin_enqueue_scripts', array( $this,'cmp_add_topbar_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this,'cmp_add_admin_style' ) ); 
+			add_action( 'wp_enqueue_scripts', array( $this,'cmp_add_topbar_scripts' ) );
 			add_action( 'wp_ajax_cmp_get_post_detail', array( $this, 'cmp_get_post_detail' ) );
 			add_action( 'wp_ajax_nopriv_cmp_get_post_detail', array( $this, 'cmp_get_post_detail' ) );
 			add_action( 'wp_ajax_cmp_check_update', array( $this, 'cmp_check_update' ) );
@@ -106,7 +105,7 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			add_action( 'wp_ajax_cmp_ajax_upload_font', array( $this, 'cmp_ajax_upload_font' ) );
 			add_action( 'wp_ajax_cmp_ajax_export_settings', array( $this, 'cmp_ajax_export_settings' ) );
 			add_action( 'wp_ajax_cmp_ajax_import_settings', array( $this, 'cmp_ajax_import_settings' ) );
-			add_action( 'wp_enqueue_scripts', array( $this,'cmp_add_topbar_scripts' ) );
+			add_action( 'admin_head', array( $this,'cmp_admin_css') );
 			
 			add_filter('upload_mimes', array( $this, 'cmp_allow_font_mimes' ));
 			add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this,'add_action_links' ) );
@@ -145,17 +144,16 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 				$this->render_settings = new cmp_render_settings();
 			
 				wp_register_style( 'cmp-style',  plugins_url('/css/cmp-settings-style'.CMP_ASSET_SUFFIX.'.css', __FILE__),'', CMP_VERSION );
-				wp_register_style( 'cmp-menu-logo',  plugins_url('/css/cmp-menu-logo.css', __FILE__),'', CMP_VERSION );
 				wp_register_style( 'font-awesome',  plugins_url('/css/font-awesome.min.css', __FILE__) );
 				wp_register_style( 'countdown_flatpicker_css',  plugins_url('/css/flatpickr.min.css', __FILE__) );
 				wp_register_style( 'animate-css',  plugins_url('/css/animate'.CMP_ASSET_SUFFIX.'.css', __FILE__) );
-
 				wp_register_script( 'webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', array(), '1.6.26', true );
 				wp_register_script( 'cmp-select2-js',  plugins_url('/js/external/select2.min.js', __FILE__) );
 				wp_register_script( 'cmp-typography', plugins_url('/js/typography'.CMP_ASSET_SUFFIX.'.js', __FILE__), array('cmp-select2-js' ), CMP_VERSION );
 				wp_register_script( 'cmp_settings_js',  plugins_url('/js/settings'.CMP_ASSET_SUFFIX.'.js', __FILE__), array('webfont', 'cmp-select2-js'), CMP_VERSION );
 				wp_register_script( 'cmp_advanced_js',  plugins_url('/js/cmp-advanced'.CMP_ASSET_SUFFIX.'.js', __FILE__), array(), CMP_VERSION );
 				wp_register_script( 'countdown_flatpicker_js',  plugins_url('/js/external/flatpickr.min.js', __FILE__) );
+				
 			}
 			
 		}
@@ -224,6 +222,16 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 		public function cmp_overlay_text_themes() {
 			return array( 'agency' );
 		}
+
+		/**
+		 * Define CMP themes supporting 3rd party page builders
+		 *
+		 * @since 3.7.3
+		 * @return array
+		 */
+		public function cmp_builder_themes() {
+			return array( 'divi', 'elementor' );
+		}
 		
 		/**
 		 * returns array list of premium themes => manually defined
@@ -233,12 +241,14 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 		public function cmp_premium_themes() {
 			
 			$premium_themes = array();
+			array_push( $premium_themes, array('name' => 'headliner', 'url' => 'https://niteothemes.com/downloads/cmp-headliner-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=headliner', 'price' => '10') );
 			array_push( $premium_themes, array('name' => 'mercury', 'url' => 'https://niteothemes.com/downloads/cmp-mercury-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=mercury', 'price' => '10') );
 			array_push( $premium_themes, array('name' => 'fifty', 'url' => 'https://niteothemes.com/downloads/cmp-fifty-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=fifty', 'price' => '10') );
 			array_push( $premium_themes, array('name' => 'delta', 'url' => 'https://niteothemes.com/downloads/cmp-delta-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=delta', 'price' => '10') );
+			array_push( $premium_themes, array('name' => 'elementor', 'url' => 'https://niteothemes.com/downloads/cmp-elementor-addon/?utm_source=cmp&utm_medium=referral&utm_campaign=elementor', 'price' => '29') );
+			array_push( $premium_themes, array('name' => 'divi', 'url' => 'https://niteothemes.com/downloads/cmp-divi-addon/?utm_source=cmp&utm_medium=referral&utm_campaign=divi', 'price' => '29') );
 			array_push( $premium_themes, array('name' => 'libra', 'url' => 'https://niteothemes.com/downloads/cmp-libra-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=libra', 'price' => '10') );
 			array_push( $premium_themes, array('name' => 'timex', 'url' => 'https://niteothemes.com/downloads/cmp-timex-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=timex', 'price' => '15') );
-			array_push( $premium_themes, array('name' => 'divi', 'url' => 'https://niteothemes.com/downloads/cmp-divi-addon/?utm_source=cmp&utm_medium=referral&utm_campaign=divi', 'price' => '29') );
 			array_push( $premium_themes, array('name' => 'thor', 'url' => 'https://niteothemes.com/downloads/cmp-thor-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=thor', 'price' => '10') );
 			array_push( $premium_themes, array('name' => 'hardwork_premium', 'url' => 'https://niteothemes.com/downloads/cmp-hardwork-premium/?utm_source=cmp&utm_medium=referral&utm_campaign=hardwork_premium', 'price' => '10') );
 			array_push( $premium_themes, array('name' => 'tempie', 'url' => 'https://niteothemes.com/downloads/cmp-tempie-theme/?utm_source=cmp&utm_medium=referral&utm_campaign=tempie', 'price' => '10') );
@@ -307,10 +317,10 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			// push WP administrator to roles array, since it is default
 			array_push( $roles_topbar, 'administrator' );
 
-			// get current user
-			$current_user = wp_get_current_user();
 			
 
+			// get current user
+			$current_user = wp_get_current_user();
 			// check for roles array length
 			if ( count( $current_user->roles ) > 0 ) {
 				// enqueue topbar script and style only, if current user is allowed to display topbar, or is admin
@@ -341,8 +351,6 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			if ( !is_user_logged_in() ) {
 				return;
 			}
-
-			wp_enqueue_style( 'cmp-menu-logo' );
 
 			$prefix = sanitize_title( __( 'CMP Settings', 'cmp-coming-soon-maintenance' ) );
 
@@ -425,6 +433,16 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 				wp_enqueue_style('animate-css');
 			}
 		}
+
+		function cmp_admin_css() { ?>
+			<style type="text/css" media="screen">
+			#toplevel_page_cmp-settings img {
+				max-width: 20px!important;
+				padding-top: 6px!important;
+			}
+			</style>
+			<?php 
+		  }
 
 		/**
 		 * Render CMP Settings Page
@@ -607,6 +625,9 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 									case 'no-action':
 										$message = __('Counter expired but it is set to make no action - you should login to your Wordpress Admin and adjust the expired timer or disable Coming Soon / Maintenance Mode.', 'cmp-coming-soon-maintenance');
 										break;
+									case 'hide':
+										$message = __('Counter expired and and it is hidden on your website per settings..', 'cmp-coming-soon-maintenance');
+										break;
 
 									case 'disable-cmp':
 										$message = __('Counter expired and Coming soon / Maintanance mode was disabled.', 'cmp-coming-soon-maintenance');
@@ -616,13 +637,14 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 										$message = __('Counter expired and your Website is redirected to external URL per settings.', 'cmp-coming-soon-maintenance');
 										break;
 
-										default:
+									default:
+										$message = '';
 										break;
 								}
 
 								$to = get_option('niteoCS_countdown_email_address', get_option( 'admin_email' ));
 								$subject = 'Countdown timer just expired on your Coming Soon Page - ' . get_site_url();
-								$body = $message . ' This is auto generated message from CMP - Coming Soon & Maintenance Plugin. ';
+								$body = $message . ' This is auto generated message from CMP - Coming Soon & Maintenance Plugin installed on ' . get_site_url();
 								$headers = array('Content-Type: text/plain; charset=UTF-8');
 								// send email
 								wp_mail( $to, $subject, $body, $headers );
@@ -780,7 +802,7 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 
 			$class = '';
 			$msg = '';
-			$icon = '<img src="'.plugins_url('/img/cmp.png', __FILE__).'" alt="CMP Logo" class="cmp-logo" style="max-height: 23px">';
+			$icon = '<img src="'.plugins_url('/img/cmp.png', __FILE__).'" alt="CMP Logo" class="cmp-logo" style="max-width:20px;">';
 
 			$topbar_version = get_option('niteoCS_topbar_version', 'cmp-topbar-full');
 
@@ -1640,7 +1662,7 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			if ( isset($_GET['page']) && ($_GET['page'] == 'cmp-settings' || $_GET['page'] == 'cmp-translate' || $_GET['page'] == 'cmp-advanced') ) {
 				if (isset($_GET['status']) && $_GET['status'] == 'settings-saved') {
 					$status 	= 'success';
-					$message 	= __('CMP Settings Saved', 'cmp-coming-soon-maintenance'); 
+					$message 	= __('CMP Settings Saved', 'cmp-coming-soon-maintenance');
 
 					echo '<div class="notice notice-'.$status.' is-dismissible"><p>'.$message.'.</p></div>';
 				}
@@ -1797,13 +1819,12 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			}
 		}
 
-		public function cmp_get_pages() {
+		public function cmp_get_pages( $post_status = 'publish,draft') {
 			$page_titles 	= array();
 			$pages 			= array();
-
 			$published = get_pages(
 				array (
-					'post_status' => 'publish,draft',
+					'post_status' => $post_status,
 				)
 			);
 			
@@ -2176,6 +2197,7 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 		public function cmp_get_background_img_for_seo() {
 			
 			$themeslug = $this->cmp_selectedTheme();
+			$default_img = '';
 
 			$background_type = get_option('niteoCS_banner', '2');
 
@@ -2738,6 +2760,16 @@ if ( ! class_exists( 'CMP_Coming_Soon_and_Maintenance' ) ) :
 			}
 
 			return;
+		}
+
+		/**
+		 * Display Admin notices
+		 *
+		 * @since 3.7.3
+		 */
+		public function cmp_display_admin_notice( $type, $dismisable, $message ) {
+
+			echo '<div class="notice notice-'.$type.' '.$dismisable.'"><p class="message">'.$message.'</p></div>';
 		}
 	}
 

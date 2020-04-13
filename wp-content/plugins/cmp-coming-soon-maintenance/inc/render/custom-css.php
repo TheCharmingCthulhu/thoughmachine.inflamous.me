@@ -1,8 +1,8 @@
 
 <?php
 $css = '';
-$themeslug = $this->cmp_selectedTheme();
-
+$themeslug          = $this->cmp_selectedTheme();
+$countdown_action	= get_option('niteoCS_countdown_action', 'no-action');
 if ( isset($_GET['theme']) && !empty($_GET['theme']) ) {
     $themeslug  = esc_attr($_GET['theme']);
 }
@@ -96,46 +96,11 @@ if ( in_array( $themeslug, $this->cmp_premium_themes_installed() ) )  {
         $effect = $_GET['effect'];
     }
 
-    switch ( $effect ) {
-         case 'constellation':
-         case 'snow':
-         case '1':
-         case '3': ?>
-            <!-- constellation effect -->
-            <style>
-                .particles-js-canvas-el {position: absolute; top:0; left:0;}
-                <?php 
-                switch ( $themeslug ) {
-                    case 'frame': ?>
-                         .particles-js-canvas-el {z-index: -1;}
-                         #background-image, .video-banner {z-index: -3;}
-                         .background-overlay {z-index: -2;}
-                         <?php 
-                        break;
-
-                    case 'stylo':
-                    case 'eclipse': ?>
-                        .particles-js-canvas-el {z-index: 1;}
-                        <?php
-                        break;
-                    default:
-                        break;
-                } ?>
-            </style>
-            <?php
-             break;
-
-         case 'bubbles':
-         case '2': ?>
-            <!-- constellation effect -->
-            <style>
-                canvas {position: absolute; top:0; left:0;}
-            </style>
-            <?php
-             break;
-         
-         default:
-             break;
+    if ( $effect !== 'disabled' ) { ?>
+    <style>
+        .particles-js-canvas-el {position:absolute; top:0; left:0; bottom:0; pointer-events:none;}
+    </style>
+    <?php 
     }
 }
 
@@ -173,6 +138,17 @@ if ( get_option('niteoCS_login_icon', '0') !== '0' ) {
     <?php 
 
 }
+
+if ( get_option('niteoCS_counter_date' ) < time() && $countdown_action === 'hide' ) { ?>
+    <style>
+        #counter {
+            display: none;
+        }
+    </style>
+    <?php 
+
+}
+
 
 $css = ob_get_clean();
 
